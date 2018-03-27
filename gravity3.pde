@@ -19,13 +19,15 @@ void draw(){
   translate(width/2,height/2);
   background(255);
   for(int i=0; i<bodies.length; i++){
-    bodies[i].getaccel();
-    bodies[i].update();
-    bodies[i].display();
-    bodies[i].drawpath();
-    for(int j =0; j<bodies.length;j++){
-      if(j!=i){
-        bodies[i].collide(bodies[j]);
+    if(bodies[i].drawpath){
+      bodies[i].getaccel();
+      bodies[i].update();
+      bodies[i].display();
+      bodies[i].drawpath();
+      for(int j =0; j<bodies.length;j++){
+        if(j!=i){
+          bodies[i].collide(bodies[j]);
+        }
       }
     }
   }
@@ -77,11 +79,9 @@ class Body{
   
   void drawpath(){
     stroke(bodyColor);
-    if(drawpath){
       for(int j =0 ; j<pathx.length-1; j++){
         line(pathx[j],pathy[j],pathx[j+1],pathy[j+1]);
       }
-    }
   }
   
   void getaccel(){
@@ -115,8 +115,6 @@ class Body{
          other.lx =0;
          other.ly =0;
          other.drawpath =false;
-         //other.pathx = {};
-         //other.pathy = {};
        } else{
          if(mass +other.mass !=0){
            other.vx = (vx*mass +other.vx*other.mass)/(mass+other.mass);
